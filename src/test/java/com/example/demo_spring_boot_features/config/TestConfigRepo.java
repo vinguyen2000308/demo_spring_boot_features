@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
-@Configuration
+/*@Configuration
 public class TestConfigRepo {
 
     @Autowired
@@ -19,4 +19,4 @@ public class TestConfigRepo {
     public JdbcTemplate userJdbcTemplate() {
         return new JdbcTemplate(dataSource);
     }
-}
+}*/

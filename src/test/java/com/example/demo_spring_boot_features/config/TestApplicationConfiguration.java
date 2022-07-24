@@ -16,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/*
 @Configuration
 public class TestApplicationConfiguration {
 
@@ -58,4 +59,4 @@ public class TestApplicationConfiguration {
         dataSourceBuilder.password("Abcds007");
         return dataSourceBuilder.build();
     }
-}
+}*/

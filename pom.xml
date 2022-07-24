@@ -72,7 +72,25 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!--Testing container for mariadb-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.17.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.17.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mariadb</artifactId>
+            <version>1.17.3</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
