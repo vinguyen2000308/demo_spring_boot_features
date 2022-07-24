@@ -1,3 +1,4 @@
+/*
 package com.example.demo_spring_boot_features.service;
 
 import com.example.demo_spring_boot_features.domain.Address;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import static org.instancio.Select.*;
 
 // Creating Objects
+*/
 /*
  * Instancio.create(Class<T> klass): create an object with class Kclass generate totally random object
  * Tạo ra object hoàn toàn là random
@@ -32,9 +34,11 @@ import static org.instancio.Select.*;
  *       Builder API
  *           Instancio.of(Class<T> klass).stream()
  *           Instancio.of(TypeTokenSupplier<T> supplier).stream()
- * */
+ * *//*
+
 
 // Selectors
+*/
 /*
 *   1. Select.field(String field): chọn ra một field nhất định của class được tạo
 *   2. Select.field(Class<?> declaringClass, String field): chọn ra một field nhất định của class được truyền
@@ -49,22 +53,27 @@ import static org.instancio.Select.*;
                             .ignore(all(Phone.class)) // bỏ đi class Phone
                             .create();
     *
-* */
+* *//*
+
 
 // Selector Scopes
+*/
 /*
  *   Select.scope(Class<?> targetClass, String field)
  *   Select.scope(Class<?> targetClass)
  *
- * */
+ * *//*
+
 // Customising Objects
+*/
 /*
 
  1. generate()
 
  2. set()
  3. supply()
-*/
+*//*
+
 
 public class PersonServiceTest {
 
@@ -78,11 +87,15 @@ public class PersonServiceTest {
         Pair<String, Long> pair = Instancio.create(new TypeToken<>() {
         });
         System.out.println(pair);
-        /*result: DXZMPJZIU->1504*/
+        */
+/*result: DXZMPJZIU->1504*//*
+
         Map<Integer, List<String>> map = Instancio.create(new TypeToken<>() {
         });
         System.out.println(map);
-        /*result: {1074=[HHGQTSVC, KBVZG, GQTJWFFR, CGX, EPGMNJ], 7316=[CPP, SCIBNCAD, FAREFHEAA, NMJIX], 2666=[QKQWEC, FTOZJE, BFBEGWH, BMUPSDU, WBC, JBHFMAZFV]}*/
+        */
+/*result: {1074=[HHGQTSVC, KBVZG, GQTJWFFR, CGX, EPGMNJ], 7316=[CPP, SCIBNCAD, FAREFHEAA, NMJIX], 2666=[QKQWEC, FTOZJE, BFBEGWH, BMUPSDU, WBC, JBHFMAZFV]}*//*
+
 
 //        Method 3 Định nghĩa field nào có, field nào không có, dữ liệu của từng field là gì ?
         Model<Person> personModel = Instancio.of(Person.class)
@@ -181,4 +194,4 @@ public class PersonServiceTest {
         System.out.println(person);
     }
 
-}
+}*/
