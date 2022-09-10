@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/test
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: Abcds007
-  jpa:
-    show-sql: true
+  elasticsearch:
+    uris: https://108.137.132.101:9200
+    password: g-HSpUjzeje56N84lVwx
