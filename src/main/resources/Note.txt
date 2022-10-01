@@ -1,0 +1,35 @@
+Item 60: How to Delay Connection Acquisition Until It’s Really Needed
+    => The database connection is useless to the application until the first JDBC statement of the current
+       transaction is triggered; holding the database connection unused for this time induces a performance
+       penalty that can have a big impact if there are many or/and time-consuming tasks before the
+       first JDBC statement.
+    => Solution:
+        + Turn off auto-commit
+Item 61: How @Transactional(readOnly=true) Really Works
+    => readOnly=true or false Depending on this setting, the entities are loaded in read-write mode or read-only mode
+    Read-write mode:
+        In this mode, both the entity and its hydrated state are available in the Persistence Context.
+        They are available during the Persistence Context lifespan (until the Persistence Context is closed)
+        or until the entity is detached. The hydrated state is needed by the Dirty Checking mechanism, the Versionless
+        Optimistic Locking mechanism, and the Second Level Cache. The Dirty Checking mechanism takes advantage of the
+        hydrated state at flush time (if you need a refresher about how flush works, consider Appendix H).
+        It simply compares the current entity’s state with the corresponding hydrated state and, if they are not
+        the same, then Hibernate triggers the proper UPDATE statements. The Versionless Optimistic Locking mechanism
+        takes advantage of the hydrated state to build the WHERE clause filtering predicates.
+        The Second Level Cache represents the cache entries via the disassembled hydrated state.
+        In read-write mode, the entities have the MANAGED status.
+    Read-only mode:
+        In this mode, the hydrated state is discarded from memory and only the entities are kept  in the
+        Persistence Context (these are read-only entities). Obviously, this means that the automatic
+        Dirty Checking and Versionless Optimistic Locking mechanisms are disabled. In read-only mode,
+        the entities have the READ_ONLY status. Moreover, there is no automatic flush because Spring
+        Boot sets flush mode to MANUAL.
+    => Setting readOnly=true for read-only data is a good optimization of performance since
+       the hydrated/loaded state is discarded.
+Item 62: Why Spring Ignores @Transactional
+    - @Transactional was added to a private, protected, or package-protected method.
+    - @Transactional was added to a method defined in the same class as where it is invoked.
+    => Therefore, as a rule of thumb, @Transactional works only on public methods,
+    and the method should be added in a class different from where it is invoked.
+Item 63: How to Set and Check that Transaction Timeout and Rollback at Expiration Work as Expected
+Item 64: Why and How to Use @Transactional in a Repository Interface
