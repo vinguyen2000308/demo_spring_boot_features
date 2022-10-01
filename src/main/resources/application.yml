@@ -1,12 +1,10 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    #cachePrepStmts=true
-    #&useServerPrepStmts=true
-    #&rewriteBatchedStatements=true
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/test?cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true
-    username: root
-    password: Abcds007
+    driver-class-name: org.mariadb.jdbc.Driver
+    url:  jdbc:mariadb://database-1.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/spring_batching
+    username: admin
+    password: IkHZrjMVId57aaPc61ys
+
     hikari:
       auto-commit: false
       pool-name: mysql-pool-name
@@ -15,16 +13,19 @@ spring:
       max-lifetime: 900000
       maximum-pool-size: 5
       minimum-idle: 5
+  batch:
+    job:
+      enabled: false
   jpa:
     show-sql: true
-#    Set batch size for and default value fetch from Dialect.DEFAULT_BATCH_SIZE
     properties:
       hibernate:
         jdbc:
           batch_size: 30
-        generate_statistics: true
+#        generate_statistics: true
         connection:
           autocommit: false
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
 
 logging:
   level:
