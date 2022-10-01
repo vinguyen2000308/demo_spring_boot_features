@@ -1,10 +1,13 @@
 spring:
+  batch:
+    job:
+      enabled: false
+business:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url:  jdbc:mariadb://database-1.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/spring_batching
+    url: jdbc:mariadb://database-1.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/test_database
     username: admin
     password: IkHZrjMVId57aaPc61ys
-
     hikari:
       auto-commit: false
       pool-name: mysql-pool-name
@@ -13,20 +16,31 @@ spring:
       max-lifetime: 900000
       maximum-pool-size: 5
       minimum-idle: 5
-  batch:
-    job:
-      enabled: false
   jpa:
     show-sql: true
     properties:
       hibernate:
         jdbc:
           batch_size: 30
-#        generate_statistics: true
+        #        generate_statistics: true
         connection:
           autocommit: false
     database-platform: org.hibernate.dialect.MariaDB103Dialect
 
+batching:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://database-1.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/test_database
+    username: admin
+    password: IkHZrjMVId57aaPc61ys
+    hikari:
+      auto-commit: false
+      pool-name: mysql-pool-name
+      connection-timeout: 50000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 5
+      minimum-idle: 5
 logging:
   level:
     root: info
