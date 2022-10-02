@@ -1,0 +1,44 @@
+app1:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mariadb.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/spring_batching
+    username: admin
+    password: Abcds008
+    hikari:
+      auto-commit: false
+      pool-name: spring_batching-pool
+      connection-timeout: 50000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 5
+      minimum-idle: 5
+
+app2:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mariadb.cxn7aglcvhjo.ap-southeast-3.rds.amazonaws.com:3306/test_database
+    username: admin
+    password: Abcds008
+    hikari:
+      auto-commit: false
+      pool-name: test-database-pool
+      connection-timeout: 50000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 5
+      minimum-idle: 5
+
+
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        engine:
+          transaction:
+            internal:
+              org.hibernate.engine.transaction.internal.TransactionImpl: debug
+      springframework:
+        orm:
+          jpa: debug
+        transaction: debug
