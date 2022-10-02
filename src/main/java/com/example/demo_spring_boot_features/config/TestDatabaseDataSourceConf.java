@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -38,32 +37,24 @@ public class TestDatabaseDataSourceConf {
     }
 
     @Bean("businessDataSource")
-    public HikariDataSource businessDataSource(@Qualifier("businessDataSourceProperties") DataSourceProperties dataSourceProperties) {
+    public DataSource businessDataSource(@Qualifier("businessDataSourceProperties") DataSourceProperties dataSourceProperties) {
         return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean businessEntityManagerFactory
-            (@Qualifier("testDataBaseEntityManagerFactoryBuilder") EntityManagerFactoryBuilder entityManagerFactoryBuilder, @Qualifier("businessDataSource") DataSource dataSource) {
-        return entityManagerFactoryBuilder
-                .dataSource(dataSource)
-                .packages(packagesToScan())
-                .persistenceUnit("business-pu")
-                .properties(hibernateProperties())
-                .build();
-    }
-
-
-    @Bean("testDataBaseEntityManagerFactoryBuilder")
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), hibernateProperties() ,null);
+    public LocalContainerEntityManagerFactoryBean businessEntityManagerFactory() {
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(false);
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan(packagesToScan());
+        factory.setDataSource(businessDataSource(businessDataSourceProperties()));
+        return factory;
     }
 
     @Bean
-    public PlatformTransactionManager businessTransactionManager(
-            @Qualifier("businessEntityManagerFactory")
-            EntityManagerFactory businessEntityManagerFactory) {
-        return new JpaTransactionManager(businessEntityManagerFactory);
+    public PlatformTransactionManager businessTransactionManager(@Qualifier("businessEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 
     protected String[] packagesToScan() {

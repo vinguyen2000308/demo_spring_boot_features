@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,7 +15,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,20 +43,16 @@ public class SpringBatchingDataSourceConf {
                 .type(HikariDataSource.class).build();
     }
 
-    @Bean("springBatchingEntityManagerFactoryBuilder")
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), hibernateProperties(), null);
-    }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean springBatchingEntityManagerFactory
-            (@Qualifier("springBatchingEntityManagerFactoryBuilder") EntityManagerFactoryBuilder entityManagerFactoryBuilder, @Qualifier("springBatchingDataSource") DataSource dataSource) {
-        return entityManagerFactoryBuilder
-                .dataSource(dataSource)
-                .packages(packagesToScan())
-                .persistenceUnit("spring-batching-pu")
-                .properties(hibernateProperties())
-                .build();
+    public LocalContainerEntityManagerFactoryBean springBatchingEntityManagerFactory() {
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(false);
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan(packagesToScan());
+        factory.setDataSource(springBatchingDs(new DataSourceProperties()));
+        return factory;
     }
 
     @Bean
